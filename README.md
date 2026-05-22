@@ -222,7 +222,7 @@ classDiagram
 
 ## 7. Planning Lengkap Tahap Instalasi Software + Eksekusi Step-by-Step
 
-## A. Software yang Dibutuhkan
+### A. Software yang Dibutuhkan
 1. **Git** (version control)
 2. **Docker Desktop** (rekomendasi utama untuk menjalankan environment)
 3. **Docker Compose** (biasanya sudah include di Docker Desktop)
@@ -230,14 +230,16 @@ classDiagram
 5. **PostgreSQL** (opsional jika run tanpa container)
 6. **Postman/Insomnia** (testing API)
 
-## B. Instalasi per Software
-### 1) Install Git
+### B. Instalasi per Software
+#### 1) Install Git
+- Jika tidak menggunakan package manager, silakan download installer resmi dari website Git.
 - Windows: `winget install --id Git.Git -e --source winget`
 - macOS: `brew install git`
 - Linux (Ubuntu): `sudo apt update && sudo apt install -y git`
 - Verifikasi: `git --version`
 
-### 2) Install Docker Desktop
+#### 2) Install Docker Desktop
+- Jika tidak menggunakan package manager, install langsung dari website Docker.
 - Download dari situs resmi Docker lalu install.
 - Verifikasi:
   ```bash
@@ -245,7 +247,8 @@ classDiagram
   docker compose version
   ```
 
-### 3) (Opsional) Install Node.js LTS
+#### 3) (Opsional) Install Node.js LTS
+- Jika tidak menggunakan package manager, gunakan installer resmi Node.js LTS.
 - Windows: `winget install OpenJS.NodeJS.LTS`
 - macOS: `brew install node`
 - Linux: `sudo apt install -y nodejs npm`
@@ -255,17 +258,25 @@ classDiagram
   npm -v
   ```
 
-### 4) (Opsional) Install PostgreSQL lokal
+#### 4) (Opsional) Install PostgreSQL lokal
+Jika tidak menggunakan package manager, install PostgreSQL dari installer resmi:
+- https://www.postgresql.org/download/
+
+Atau via package manager:
+- Windows (Chocolatey): `choco install postgresql`
+- macOS: `brew install postgresql`
+- Linux (Ubuntu): `sudo apt update && sudo apt install -y postgresql postgresql-contrib`
+
 - Verifikasi: `psql --version`
 
-## C. Eksekusi Step-by-Step Rancang dan Jalankan Sistem
-### Step 1 — Clone repository
+### C. Eksekusi Step-by-Step Rancang dan Jalankan Sistem
+#### Step 1 — Clone repository
 ```bash
 git clone https://github.com/Mikazus/Mental_Health-app.git
 cd Mental_Health-app
 ```
 
-### Step 2 — Siapkan environment variable
+#### Step 2 — Siapkan environment variable
 Contoh file `.env`:
 ```env
 APP_ENV=development
@@ -279,7 +290,7 @@ JWT_SECRET=replace_with_secure_secret
 AI_PROVIDER=mock
 ```
 
-### Step 3 — Jalankan via Docker (disarankan)
+#### Step 3 — Jalankan via Docker (disarankan)
 Contoh `docker-compose.yml` minimal:
 ```yaml
 version: "3.9"
@@ -317,20 +328,20 @@ Jalankan:
 docker compose up -d
 ```
 
-### Step 4 — Inisialisasi database
+#### Step 4 — Inisialisasi database
 - Jalankan SQL DDL pada bagian **Desain Database**.
 - Bisa menggunakan:
   ```bash
   docker exec -i <container_postgres> psql -U postgres -d mental_health < schema.sql
   ```
 
-### Step 5 — Uji endpoint dasar
+#### Step 5 — Uji endpoint dasar
 - Health check: `GET /health`
 - Auth: `POST /auth/register`, `POST /auth/login`
 - Screening: `POST /screenings`
 - Queue: `POST /queue`, `GET /queue/priority`
 
-### Step 6 — Uji alur utama (manual)
+#### Step 6 — Uji alur utama (manual)
 1. Registrasi pasien.
 2. Isi PHQ-9/GAD-7.
 3. Lihat hasil level stres.
