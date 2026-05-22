@@ -233,7 +233,7 @@ classDiagram
 ### B. Instalasi per Software
 #### 1) Install Git
 - Jika tidak menggunakan package manager, silakan download installer resmi dari website Git.
-- Windows (PowerShell/Windows Terminal): `winget install --id Git.Git -e --source winget`
+- Windows (PowerShell/Windows Terminal): `winget install --id Git.Git -e`
 - macOS: `brew install git`
 - Linux (Ubuntu): `sudo apt update && sudo apt install -y git`
 - Verifikasi: `git --version`
