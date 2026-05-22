@@ -233,7 +233,7 @@ classDiagram
 ### B. Instalasi per Software
 #### 1) Install Git
 - Jika tidak menggunakan package manager, silakan download installer resmi dari website Git.
-- Windows (PowerShell/CMD): `winget install --id Git.Git -e --source winget`
+- Windows (PowerShell/Windows Terminal): `winget install --id Git.Git -e --source winget`
 - macOS: `brew install git`
 - Linux (Ubuntu): `sudo apt update && sudo apt install -y git`
 - Verifikasi: `git --version`
@@ -249,7 +249,7 @@ classDiagram
 
 #### 3) (Opsional) Install Node.js LTS
 - Jika tidak menggunakan package manager, gunakan installer resmi Node.js LTS.
-- Windows (PowerShell/CMD): `winget install OpenJS.NodeJS.LTS`
+- Windows (PowerShell/Windows Terminal): `winget install OpenJS.NodeJS.LTS`
 - macOS: `brew install node`
 - Linux: `sudo apt install -y nodejs npm`
 - Verifikasi:
