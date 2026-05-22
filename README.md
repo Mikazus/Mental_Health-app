@@ -293,10 +293,9 @@ AI_PROVIDER=mock
 #### Step 3 — Jalankan via Docker (disarankan)
 Contoh `docker-compose.yml` minimal:
 ```yaml
-version: "3.9"
 services:
   api:
-    image: node:20-alpine
+    image: node:20.11.1-alpine
     working_dir: /app
     volumes:
       - ./:/app
@@ -309,7 +308,7 @@ services:
       - postgres
 
   postgres:
-    image: postgres:16
+    image: postgres:16.2
     environment:
       POSTGRES_DB: mental_health
       POSTGRES_USER: postgres
