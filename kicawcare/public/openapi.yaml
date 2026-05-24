@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: Kicawcare API
+  version: 1.0.0
+  description: REST API documentation for Kicawcare Mental Health Platform.
+
+paths:
+  /api/auth/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: nim@student.ub.ac.id
+                password:
+                  type: string
+                name:
+                  type: string
+                role:
+                  type: string
+                  enum: [STUDENT, COUNSELOR]
+      responses:
+        '201':
+          description: User created successfully
+        '400':
+          description: Invalid email or missing fields

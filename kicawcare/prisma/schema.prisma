@@ -1,0 +1,157 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  COUNSELOR
+  ADMIN
+}
+
+enum SeverityLevel {
+  NORMAL
+  MILD
+  MODERATE
+  SEVERE
+  CRITICAL
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  role         Role
+  isVerified   Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  studentProfile   StudentProfile?
+  counselorProfile CounselorProfile?
+}
+
+model StudentProfile {
+  id          String        @id @default(cuid())
+  userId      String        @unique
+  user        User          @relation(fields: [userId], references: [id])
+  nim         String        @unique
+  faculty     String
+  major       String
+  stressLevel SeverityLevel @default(NORMAL)
+
+  screeningResults ScreeningResult[]
+  journals         Journal[]
+  appointments     Appointment[]
+  queueEntries     Queue[]
+  aiConversations  AIConversation[]
+}
+
+model CounselorProfile {
+  id             String  @id @default(cuid())
+  userId         String  @unique
+  user           User    @relation(fields: [userId], references: [id])
+  specialization String
+  isActive       Boolean @default(true)
+  maxCapacity    Int     @default(20)
+
+  appointments   Appointment[]
+  availabilities CounselorAvailability[]
+}
+
+model CounselorAvailability {
+  id          String           @id @default(cuid())
+  counselorId String
+  counselor   CounselorProfile @relation(fields: [counselorId], references: [id])
+  dayOfWeek   Int // 0 = Sunday, 1 = Monday, etc.
+  startTime   String // "09:00"
+  endTime     String // "17:00"
+  isAvailable Boolean          @default(true)
+}
+
+model ScreeningResult {
+  id         String         @id @default(cuid())
+  studentId  String
+  student    StudentProfile @relation(fields: [studentId], references: [id])
+  phq9Score  Int
+  gad7Score  Int
+  severity   SeverityLevel
+  aiAnalysis String?
+  createdAt  DateTime       @default(now())
+}
+
+model Journal {
+  id             String         @id @default(cuid())
+  studentId      String
+  student        StudentProfile @relation(fields: [studentId], references: [id])
+  content        String
+  sentimentScore Float?
+  createdAt      DateTime       @default(now())
+}
+
+model Queue {
+  id            String         @id @default(cuid())
+  studentId     String
+  student       StudentProfile @relation(fields: [studentId], references: [id])
+  priorityScore Int // Calculated based on severity and waiting time
+  status        String // WAITING, ASSIGNED, COMPLETED
+  assignedTo    String? // Counselor ID
+  createdAt     DateTime       @default(now())
+}
+
+model Appointment {
+  id          String            @id @default(cuid())
+  studentId   String
+  student     StudentProfile    @relation(fields: [studentId], references: [id])
+  counselorId String
+  counselor   CounselorProfile  @relation(fields: [counselorId], references: [id])
+  status      AppointmentStatus @default(SCHEDULED)
+  scheduledAt DateTime
+  notes       String? // Counselor session notes
+  aiSummary   String? // AI generated summary
+}
+
+model AIConversation {
+  id        String         @id @default(cuid())
+  studentId String
+  student   StudentProfile @relation(fields: [studentId], references: [id])
+  messages  Json // Storing the array of messages
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model WellnessChallenge {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  points      Int
+  createdAt   DateTime @default(now())
+}
+
+model SelfHelpContent {
+  id        String   @id @default(cuid())
+  title     String
+  content   String // Markdown or HTML
+  category  String // e.g., "Anxiety", "Sleep"
+  imageUrl  String?
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
