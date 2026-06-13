@@ -359,10 +359,10 @@ export default function ScreeningPage() {
             <motion.div
               key={currentStep}
               custom={direction}
-              initial={(d) => ({ opacity: 0, x: d * 40 })}
+              initial={(d: number) => ({ opacity: 0, x: d * 40 })}
               animate={{ opacity: 1, x: 0 }}
-              exit={(d) => ({ opacity: 0, x: d * -40 })}
-              transition={{ duration: 0.32, ease: [0.4, 0, 0.2, 1] }}
+              exit={(d: number) => ({ opacity: 0, x: d * -40 })}
+              transition={{ duration: 0.32, ease: [0.4, 0, 0.2, 1] } as any}
               className="glass-card rounded-3xl p-6 md:p-8 flex flex-col gap-5"
             >
               {/* Question text */}
